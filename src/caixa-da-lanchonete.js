@@ -57,8 +57,20 @@ class CaixaDaLanchonete {
         return this.itensDaLanchonete.getValorItem(this.carrinho[i][0], this.carrinho[i][1]);
     }
 
+    getValorTotalComDesconto(valor, formaDePagamento){
+        if(formaDePagamento == "dinheiro"){
+            let valorpercentual = valor * (5/100);
+            return valor - valorpercentual;
+        }else if(formaDePagamento == "credito"){
+            let valorpercentual = valor * (3/100);
+            return valor + valorpercentual;
+        }else if(formaDePagamento == "debito"){
+            return valor;
+        }
+    }
+
     formatarValor(metodoDePagamento){
-        return "R$ "+ this.itensDaLanchonete.getValorTotalComDesconto(this.subTotal, metodoDePagamento).toFixed(2).replace(".", ",");
+        return "R$ "+ this.getValorTotalComDesconto(this.subTotal, metodoDePagamento).toFixed(2).replace(".", ",");
         
     }
 

@@ -35,18 +35,6 @@ class ItensDaLanchonete {
             return false;
         }
     }
-    
-    getValorTotalComDesconto(valor, formaDePagamento){
-        if(formaDePagamento == "dinheiro"){
-            let valorpercentual = valor * (5/100);
-            return valor - valorpercentual;
-        }else if(formaDePagamento == "credito"){
-            let valorpercentual = valor * (3/100);
-            return valor + valorpercentual;
-        }else if(formaDePagamento == "debito"){
-            return valor;
-        }
-    }
 }
 
 export { ItensDaLanchonete };
