@@ -3,8 +3,6 @@ import { ItensDaLanchonete } from "./itens-da-lanchonete.js";
 class CaixaDaLanchonete {
 
     constructor() {
-        this.qtdCafe = 0;
-        this.qtdSanduiche = 0;
         this.subTotal = 0.00;
         this.Total = 0.00; 
         this.carrinho = [];
@@ -32,7 +30,7 @@ class CaixaDaLanchonete {
                 return itemInvalido;
             }else if(this.carrinho[i][1] <= 0){
                 return quantidadeInvalida;
-            }else if(!this.validarItemExtra(this.carrinho, i)){
+            }else if(!this.validarItemExtra(i)){
                 return itemExtraInvalido;
             }else{
                 this.subTotal += this.getValorTotalDoItem(i);
@@ -48,10 +46,13 @@ class CaixaDaLanchonete {
         for(let i = 0; i < itens.length; i++){
             let item = itens[i].split(",");
             this.carrinho.push(item.map((item) => item.trim()));
-            if(this.carrinho[i][0] == "cafe"){
-                this.qtdCafe = this.carrinho[i][1];
-            }else if(this.carrinho[i][0] == "sanduiche"){
-                this.qtdSanduiche = this.carrinho[i][1];
+        }
+    }
+
+    getQuantidadeDoItem(nome){
+        for(let i = 0; i < this.carrinho.length; i++){
+            if(this.carrinho[i][0] === nome){
+                return this.carrinho[i][1];
             }
         }
     }
@@ -63,12 +64,13 @@ class CaixaDaLanchonete {
     }
 
     getValorTotalComDesconto(valor, formaDePagamento){
+        let valorcomdesconto = 0.00;
         if(formaDePagamento == "dinheiro"){
-            let valorpercentual = valor * (5/100);
-            return valor - valorpercentual;
+            valorcomdesconto = valor * (5/100);
+            return valor - valorcomdesconto;
         }else if(formaDePagamento == "credito"){
-            let valorpercentual = valor * (3/100);
-            return valor + valorpercentual;
+            valorcomdesconto = valor * (3/100);
+            return valor + valorcomdesconto;
         }else if(formaDePagamento == "debito"){
             return valor;
         }
@@ -87,14 +89,14 @@ class CaixaDaLanchonete {
         }else{false}
     }
 
-    validarItemExtra(carrinho, i){
-        if(carrinho[i][0] === "chantily" &&
-        this.qtdCafe < carrinho[i][1] ^ 
-        this.qtdCafe === undefined){
+    validarItemExtra(i){
+        if(this.carrinho[i][0] === "chantily" &&
+        this.getQuantidadeDoItem("cafe") < this.carrinho[i][1] ^ 
+        this.getQuantidadeDoItem("cafe") === undefined){
             return false;
-        }else if(carrinho[i][0] === "queijo" && 
-        this.qtdSanduiche < carrinho[i][1] ^ 
-        this.qtdSanduiche === undefined){
+        }else if(this.carrinho[i][0] === "queijo" && 
+        this.getQuantidadeDoItem("sanduiche") < this.carrinho[i][1] ^ 
+        this.getQuantidadeDoItem("sanduiche") === undefined){
             return false;
         }else{
             return true;
