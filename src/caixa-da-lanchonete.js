@@ -12,8 +12,6 @@ class CaixaDaLanchonete {
     }
 
     calcularValorDaCompra(metodoDePagamento, itens) {
-        
-        //cenários de erro
         const itemInvalido = "Item inválido!";
         const formaDePagamentoInvalida = "Forma de pagamento inválida!";
         const carrinhoVazio = "Não há itens no carrinho de compra!";
@@ -81,7 +79,7 @@ class CaixaDaLanchonete {
         
     }
 
-    validarMetodoDePagamento(metodoDePagamento) {
+    validarMetodoDePagamento(metodoDePagamento){
         if(metodoDePagamento == "dinheiro" ||
         metodoDePagamento == "credito" || 
         metodoDePagamento == "debito"){
