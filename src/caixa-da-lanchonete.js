@@ -4,7 +4,7 @@ class CaixaDaLanchonete {
 
     constructor() {
         this.subTotal = 0.00;
-        this.Total = 0.00; 
+        this.total = 0.00; 
         this.carrinho = [];
         this.itensDaLanchonete = new ItensDaLanchonete();
     }
@@ -15,16 +15,12 @@ class CaixaDaLanchonete {
         const carrinhoVazio = "Não há itens no carrinho de compra!";
         const quantidadeInvalida = "Quantidade inválida!";
         const itemExtraInvalido = "Item extra não pode ser pedido sem o principal";
-
-
+        
         this.setCarrinho(itens);
-
         if(itens.length == 0){
             return carrinhoVazio;
         }else if(!this.validarMetodoDePagamento(metodoDePagamento)){
-            return formaDePagamentoInvalida;
-        }
-
+            return formaDePagamentoInvalida;}
         for(let i = 0; i < this.carrinho.length; i++){
             if(!this.itensDaLanchonete.validarItem(this.carrinho[i][0])){
                 return itemInvalido;
@@ -33,11 +29,10 @@ class CaixaDaLanchonete {
             }else if(!this.validarItemExtra(i)){
                 return itemExtraInvalido;
             }else{
-                this.subTotal += this.getValorTotalDoItem(i);
-            }    
+                this.subTotal += this.getValorTotalDoItem(i);}    
         }
         this.setValorTotal(metodoDePagamento);
-        return this.Total;
+        return this.total;
     }
 
 
@@ -72,13 +67,11 @@ class CaixaDaLanchonete {
             valorcomdesconto = valor * (3/100);
             return valor + valorcomdesconto;
         }else if(formaDePagamento == "debito"){
-            return valor;
-        }
+            return valor;}
     }
 
     setValorTotal(metodoDePagamento){
-        this.Total = "R$ "+ this.getValorTotalComDesconto(this.subTotal, metodoDePagamento).toFixed(2).replace(".", ",");
-        
+        this.total = "R$ "+ this.getValorTotalComDesconto(this.subTotal, metodoDePagamento).toFixed(2).replace(".", ",");
     }
 
     validarMetodoDePagamento(metodoDePagamento){
@@ -99,8 +92,7 @@ class CaixaDaLanchonete {
         this.getQuantidadeDoItem("sanduiche") === undefined){
             return false;
         }else{
-            return true;
-        }
+            return true;}
     }
 }
 
