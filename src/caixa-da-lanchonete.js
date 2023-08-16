@@ -35,7 +35,7 @@ class CaixaDaLanchonete {
                 return "Item inválido!";
             }else if(carrinho[i][1] <= 0){
                 return "Quantidade inválida!"
-            }else if(!this.validarExtra(carrinho, i)){
+            }else if(!this.validarItemExtra(carrinho, i)){
                 return "Item extra não pode ser pedido sem o principal";
             }else{
                 this.valor += itensDaLanchonete.getValorItem(carrinho[i][0], carrinho[i][1]);
@@ -49,7 +49,7 @@ class CaixaDaLanchonete {
         if(metodoDePagamento == "dinheiro" || metodoDePagamento == "credito" || metodoDePagamento == "debito"){return true;}else{false}
     }
 
-    validarExtra(carrinho, i){
+    validarItemExtra(carrinho, i){
         if(carrinho[i][0] === "chantily" && this.qtdCafe < carrinho[i][1] ^ this.qtdCafe === undefined){
             return false;
         }else if(carrinho[i][0] === "queijo" && this.qtdSanduiche < carrinho[i][1] ^ this.qtdSanduiche === undefined){
