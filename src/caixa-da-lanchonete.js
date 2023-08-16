@@ -2,22 +2,25 @@ import { ItensDaLanchonete } from "./itens-da-lanchonete.js";
 
 class CaixaDaLanchonete {
 
-    calcularValorDaCompra(metodoDePagamento, itens) {
+    constructor() {
+        this.qtdCafe = 0;
+        this.qtdSanduiche = 0;
+        this.valorTotal = 0.00;
+        this.valor = 0.00;
+    }
 
+    calcularValorDaCompra(metodoDePagamento, itens) {
+        
         let carrinho = [];
-        let valor = 0.00;
-        let ValorTotal = 0.00;
         let itensDaLanchonete = new ItensDaLanchonete();
-        let qtdCafe;
-        let qtdSanduiche;
 
         for(let i = 0; i < itens.length; i++){
             let item = itens[i].split(",");
             carrinho.push(item.map((item) => item.trim()));
             if(carrinho[i][0] == "cafe"){
-                qtdCafe = carrinho[i][1];
+                this.qtdCafe = carrinho[i][1];
             }else if(carrinho[i][0] == "sanduiche"){
-                qtdSanduiche = carrinho[i][1];
+                this.qtdSanduiche = carrinho[i][1];
             }
         }
 
@@ -28,31 +31,31 @@ class CaixaDaLanchonete {
         }
 
         for(let i = 0; i < carrinho.length; i++){
-            if(itensDaLanchonete.validarItem(carrinho[i][0]) == false){
+            if(!itensDaLanchonete.validarItem(carrinho[i][0])){
                 return "Item inválido!";
             }else if(carrinho[i][1] <= 0){
                 return "Quantidade inválida!"
-            }else if(carrinho[i][0] === "chantily" && qtdCafe < carrinho[i][1] ^ qtdCafe === undefined){
-                return "Item extra não pode ser pedido sem o principal";
-            }else if(carrinho[i][0] === "queijo" && qtdSanduiche < carrinho[i][1] ^ qtdSanduiche === undefined){
+            }else if(!this.validarExtra(carrinho, i)){
                 return "Item extra não pode ser pedido sem o principal";
             }else{
-                valor += itensDaLanchonete.getValorItem(carrinho[i][0], carrinho[i][1]);
+                this.valor += itensDaLanchonete.getValorItem(carrinho[i][0], carrinho[i][1]);
             }    
         }
-        ValorTotal =  itensDaLanchonete.getValorTotalComDesconto(valor, metodoDePagamento);
-        return "R$ " + ValorTotal.toFixed(2).replace(".", ",");
+        this.valorTotal =  itensDaLanchonete.getValorTotalComDesconto(this.valor, metodoDePagamento);
+        return "R$ " + this.valorTotal.toFixed(2).replace(".", ",");
     }
 
     validarMetodoDePagamento(metodoDePagamento) {
         if(metodoDePagamento == "dinheiro" || metodoDePagamento == "credito" || metodoDePagamento == "debito"){return true;}else{false}
     }
 
-    validarExtra(carrinho){
-        if(carrinho[i][0] === "chantily" && qtdCafe < carrinho[i][1] ^ qtdCafe === undefined){
+    validarExtra(carrinho, i){
+        if(carrinho[i][0] === "chantily" && this.qtdCafe < carrinho[i][1] ^ this.qtdCafe === undefined){
             return false;
-        }else if(carrinho[i][0] === "queijo" && qtdSanduiche < carrinho[i][1] ^ qtdSanduiche === undefined){
+        }else if(carrinho[i][0] === "queijo" && this.qtdSanduiche < carrinho[i][1] ^ this.qtdSanduiche === undefined){
             return false;
+        }else{
+            return true;
         }
     }
 }
