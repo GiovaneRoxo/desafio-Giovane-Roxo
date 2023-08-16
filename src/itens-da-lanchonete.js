@@ -14,7 +14,7 @@ class ItensDaLanchonete {
         }
     
     
-    getValorItem(item, quantidade) {
+    getValorItem(Item) {
         const itens = new Map();
             itens.set('cafe', 3.00);
             itens.set('chantily', 1.50);
@@ -23,9 +23,8 @@ class ItensDaLanchonete {
             itens.set('queijo', 2.00);
             itens.set('salgado', 7.25);
             itens.set('combo1', 9.50);
-            itens.set('combo2', 7.50);
-            let result = itens.get(item) * quantidade;    
-        return result;
+            itens.set('combo2', 7.50);    
+        return itens.get(Item);
     }
 
     validarItem(item) {

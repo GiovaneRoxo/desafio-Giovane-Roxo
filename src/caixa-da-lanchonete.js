@@ -6,6 +6,7 @@ class CaixaDaLanchonete {
         this.qtdCafe = 0;
         this.qtdSanduiche = 0;
         this.subTotal = 0.00;
+        this.Total = 0.00; 
         this.carrinho = [];
         this.itensDaLanchonete = new ItensDaLanchonete();
     }
@@ -18,6 +19,7 @@ class CaixaDaLanchonete {
         const carrinhoVazio = "Não há itens no carrinho de compra!";
         const quantidadeInvalida = "Quantidade inválida!";
         const itemExtraInvalido = "Item extra não pode ser pedido sem o principal";
+
 
         this.setCarrinho(itens);
 
@@ -38,8 +40,11 @@ class CaixaDaLanchonete {
                 this.subTotal += this.getValorTotalDoItem(i);
             }    
         }
-        return this.formatarValor(metodoDePagamento);
+        this.setValorTotal(metodoDePagamento);
+        return this.Total;
     }
+
+
 
     setCarrinho(itens){
         for(let i = 0; i < itens.length; i++){
@@ -54,7 +59,9 @@ class CaixaDaLanchonete {
     }
 
     getValorTotalDoItem(i){
-        return this.itensDaLanchonete.getValorItem(this.carrinho[i][0], this.carrinho[i][1]);
+        let quantidade = this.carrinho[i][1];
+        let valorTotalDoItem = this.itensDaLanchonete.getValorItem(this.carrinho[i][0]) * quantidade;
+        return valorTotalDoItem;
     }
 
     getValorTotalComDesconto(valor, formaDePagamento){
@@ -69,11 +76,10 @@ class CaixaDaLanchonete {
         }
     }
 
-    formatarValor(metodoDePagamento){
-        return "R$ "+ this.getValorTotalComDesconto(this.subTotal, metodoDePagamento).toFixed(2).replace(".", ",");
+    setValorTotal(metodoDePagamento){
+        this.Total = "R$ "+ this.getValorTotalComDesconto(this.subTotal, metodoDePagamento).toFixed(2).replace(".", ",");
         
     }
-
 
     validarMetodoDePagamento(metodoDePagamento) {
         if(metodoDePagamento == "dinheiro" ||
